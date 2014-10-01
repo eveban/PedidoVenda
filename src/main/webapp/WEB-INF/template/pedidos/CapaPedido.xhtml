@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<p:panelGrid columns="4" style="width: 100%; margin-top: 20px"
+	columnClasses="rotulo, campo, rotulo, campo ">
+	<p:outputLabel value="Número"
+		rendered="#{pedidoBean.pedido.existente}" />
+	<h:outputText value="#{pedidoBean.pedido.id}"
+		rendered="#{pedidoBean.pedido.existente}" />
+
+	<p:outputLabel value="Data de criação"
+		rendered="#{pedidoBean.pedido.existente}" />
+	<h:outputText value="#{pedidoBean.pedido.dataCriacao}"
+		rendered="#{pedidoBean.pedido.existente}">
+		<f:convertDateTime pattern="dd/MM/yyyy" />
+	</h:outputText>
+
+	<p:outputLabel value="Status" />
+	<h:outputText value="#{pedidoBean.pedido.status.descricao}" />
+
+	<p:outputLabel value="Vendedor" for="vendedor" />
+	<p:selectOneMenu id="vendedor" value="#{pedidoBean.pedido.vendedor}"
+		disabled="#{pedidoBean.pedido.naoAlteravel}">
+		<f:selectItem itemLabel="Selecione" />
+		<f:selectItems value="#{pedidoBean.vendedores}" var="vendedor"
+			itemValue="#{vendedor}" itemLabel="#{vendedor.nome}" />
+	</p:selectOneMenu>
+
+	<p:outputLabel value="Cliente" for="cliente" />
+	<p:autoComplete id="cliente" size="40" dropdown="true"
+		value="#{pedidoBean.pedido.cliente}"
+		completeMethod="#{pedidoBean.completarCliente}" var="cliente"
+		itemLabel="#{cliente.nome}" itemValue="#{cliente}"
+		forceSelection="true" disabled="#{pedidoBean.pedido.naoAlteravel}" />
+
+	<p:outputLabel value="Forma de pagamento" for="formaPagamento" />
+	<p:selectOneMenu id="formaPagamento"
+		value="#{pedidoBean.pedido.formaPagamento}"
+		disabled="#{pedidoBean.pedido.naoAlteravel}">
+		<f:selectItem itemLabel="Selecione" />
+		<f:selectItems value="#{pedidoBean.formasPagamento}"
+			var="formaPagamento" itemValue="#{formaPagamento}"
+			itemLabel="#{formaPagamento.descricao}" />
+	</p:selectOneMenu>
+
+	<p:outputLabel value="Valor do frete" for="valorFrete" />
+	<p:inputText id="valorFrete" size="10" maxlength="10"
+		styleClass="moeda" value="#{pedidoBean.pedido.valorFrete}"
+		disabled="#{pedidoBean.pedido.naoAlteravel}">
+		<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+
+		<p:ajax event="change" process="@this" update="totalPedido"
+			listener="#{pedidoBean.recalcularPedido}" />
+	</p:inputText>
+
+	<p:outputLabel value="Subtotal" style="font-weight: bold" />
+	<h:outputText value="#{pedidoBean.pedido.valorSubtotal}"
+		style="font-weight: bold" id="subtotal">
+		<f:convertNumber type="currency" />
+	</h:outputText>
+
+
+	<p:outputLabel value="Valor de desconto" for="valorDesconto" />
+	<p:inputText id="valorDesconto" size="10" maxlength="10"
+		styleClass="moeda" value="#{pedidoBean.pedido.valorDesconto}"
+		disabled="#{pedidoBean.pedido.naoAlteravel}">
+		<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+
+		<p:ajax event="change" process="@this" update="totalPedido"
+			listener="#{pedidoBean.recalcularPedido}" />
+	</p:inputText>
+
+	<p:outputLabel value="Total do pedido"
+		style="font-weight: bold; font-size: 1.1em" />
+	<h:outputText value="#{pedidoBean.pedido.valorTotal}"
+		style="font-weight: bold; font-size: 1.1em" id="totalPedido">
+		<f:convertNumber type="currency" />
+	</h:outputText>
+</p:panelGrid>
+
+</html>

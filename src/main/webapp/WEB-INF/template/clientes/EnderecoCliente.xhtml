@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<p:dataTable value="#{cadastroPedidoBean.itens}" id="tabelaItens"
+	style="margin-top: 20px">
+
+	<p:column headerText="Logradouro"
+		style="text-align: left; width: 300px">
+		<h:outputText value="Rua Peixoto Gomide" />
+	</p:column>
+	<p:column headerText="Número" style="text-align: center; width: 60px">
+		<h:outputText value="1234" />
+	</p:column>
+	<p:column headerText="Complemento" style="width: 200px">
+		<h:outputText value="Teste" />
+	</p:column>
+
+	<p:column headerText="CEP" style="width: 60px">
+		<h:outputText value="13408-033" />
+	</p:column>
+
+	<p:column headerText="Cidade/UF" style=" width: 200px">
+		<h:outputText value="Piracicaba/SP" />
+	</p:column>
+
+	<p:column style="text-align: center; width: 70px" headerText="Ações">
+		<p:button icon="ui-icon-pencil" title="Editar" />
+		<p:commandButton icon="ui-icon-trash" title="Excluir"
+			onclick="PF('exclusaoEndereco').show()" />
+	</p:column>
+
+</p:dataTable>
+
+<h:form id="frmEndereco">
+	<p:confirmDialog header="Exclusão do endereço"
+		message="Tem certeza que deseja excluir este endereço?"
+		widgetVar="exclusaoEndereco">
+		<p:button value="Não" onclick="PF('exclusaoEndereco').hide(); return false;" />
+		<p:commandButton value="Sim"
+			oncomplete="PF('exclusaoEndereco').hide()" />
+	</p:confirmDialog>
+</h:form>
+
+
+</html>

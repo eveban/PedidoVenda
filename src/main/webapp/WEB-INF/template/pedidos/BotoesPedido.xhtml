@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<p:toolbar style="margin-top: 20px;">
+	<f:facet name="left">
+		<p:button value="Novo" outcome="/pedidos/CadastroPedido" />
+		<p:commandButton value="Salvar" action="#{pedidoBean.salvar}"
+			update="@form" disabled="#{pedidoBean.pedido.naoAlteravel}" />
+	</f:facet>
+	<f:facet name="right">
+		<sec:ifAnyGranted roles="ADMINISTRADORES, VENDEDORES">
+			<p:commandButton value="Emitir"
+				action="#{emissaoPedidoBean.emitirPedido}" process="@form"
+				update="@form" disabled="#{pedidoBean.pedido.naoEmissivel}" />
+			<p:commandButton value="Cancelar"
+				action="#{cancelamentoPedidoBean.cancelarPedido}" process="@this"
+				update="@form" disabled="#{pedidoBean.pedido.naoCancelavel}" />
+		</sec:ifAnyGranted>
+		<p:commandButton value="Enviar por e-mail"
+			action="#{envioPedidoEmailBean.enviarPedido}" process="@this"
+			disabled="#{pedidoBean.pedido.naoEnviavelPorEmail}" />
+
+		<p:separator />
+
+		<p:button value="Pesquisa" outcome="/pedidos/PesquisaPedidos" />
+	</f:facet>
+</p:toolbar>
+
+</html>

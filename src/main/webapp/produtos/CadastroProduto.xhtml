@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<ui:decorate template="../WEB-INF/template/LayoutPadrao.xhtml">
+	<ui:define name="titulo">#{produtoBean.editando ? "Edição de produto" : "Novo produto"}</ui:define>
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<!-- Campo para Editar os produto, pegando o id do produto como parametro OmniFaces.org (Será necessário conversor)-->
+			<o:viewParam name="produto" value="#{produtoBean.produto}" />
+			<f:event listener="#{produtoBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+		<h:form id="frmProduto">
+			<h1>#{produtoBean.editando ? "Edição de Produto" : "Novo
+				Produto"}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+			<p:focus />
+
+			<p:toolbar style="margin-top: 20px;">
+				<f:facet name="left">
+					<p:button value="Novo" outcome="/produtos/CadastroProduto" />
+					<p:commandButton value="Salvar" update="@form"
+						action="#{produtoBean.salvar}" />
+				</f:facet>
+				<f:facet name="right">
+					<p:button value="Pesquisa" outcome="/produtos/PesquisaProdutos" />
+				</f:facet>
+			</p:toolbar>
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="SKU" for="sku" />
+				<p:inputText id="sku" size="20" maxlength="20"
+					value="#{produtoBean.produto.sku}" />
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80"
+					value="#{produtoBean.produto.nome}" />
+
+				<p:outputLabel value="Categoria" for="categoria" />
+				<p:selectOneMenu id="categoria" value="#{produtoBean.categoria}">
+					<f:selectItem itemLabel="Selecione Categoria" />
+					<f:selectItems value="#{produtoBean.categoriasRaizes}"
+						var="categoria" itemLabel="#{categoria.descricao} "
+						itemValue="#{categoria}" />
+					<p:ajax listener="#{produtoBean.carregarSubCategorias}"
+						update="subcategoria" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Subcategoria" for="subcategoria" />
+				<p:selectOneMenu id="subcategoria"
+					value="#{produtoBean.produto.categoria}" required="true"
+					requiredMessage="Subcategoria obrigatório">
+					<f:selectItem itemLabel="Selecione Subcategoria" />
+					<f:selectItems value="#{produtoBean.subCategorias}"
+						var="subcategoria" itemLabel="#{subcategoria.descricao}"
+						itemValue="#{subcategoria}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Valor unitário" for="valorUnitario" />
+				<p:inputText id="valorUnitario" size="10" maxlength="10"
+					styleClass="moeda" value="#{produtoBean.produto.valorUnitario}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+				<p:outputLabel value="Estoque" for="estoque" />
+				<p:inputText id="estoque" size="10" maxlength="5"
+					value="#{produtoBean.produto.quantidadeEstoque}" />
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:decorate>
+
+</html>
