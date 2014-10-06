@@ -32,6 +32,7 @@ public class GraficoPedidosCriadosBean {
 	@Inject
 	@UsuarioLogado
 	private UsuarioSistema usuarioLogado;
+	
 
 	public void preRender() {
 		this.model = new CartesianChartModel();
