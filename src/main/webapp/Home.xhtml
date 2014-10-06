@@ -6,14 +6,15 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <ui:decorate template="WEB-INF/template/LayoutPadrao.xhtml">
+	<f:metadata>
+		<f:event listener="#{graficoPedidosCriadosBean.preRender}"
+			type="preRenderView" />
+	</f:metadata>
 	<ui:define name="titulo">DashBoard</ui:define>
 	<ui:define name="corpo">
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		Corpo
+		<p:lineChart value="#{graficoPedidosCriadosBean.model}"
+			title="Pedidos criados" style="height: 400px" animate="true" minY="0"
+			legendPosition="e" />
 	</ui:define>
 </ui:decorate>
 </html>
