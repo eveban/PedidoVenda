@@ -44,7 +44,7 @@ public class GraficoPedidosCriadosBean {
 	private void adicionarSerie(String rotulo, Usuario criadoPor) {
 
 		Map<Date, BigDecimal> valoresPorData = this.pedidoRepository
-				.valoresTotaisPorData(30, criadoPor);
+				.valoresTotaisPorData(15, criadoPor);
 		ChartSeries series = new ChartSeries(rotulo);
 
 		for (Date data : valoresPorData.keySet()) {
